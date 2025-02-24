@@ -69,7 +69,7 @@ const loginUser = async (req, res) => {
         email: checkUser.email,
         userName: checkUser.userName,
       },
-      "izsduKGIkhKIGEkSVJkbgksefh",
+      process.env.SECRET_KEY,
       { expiresIn: "24h" }
     );
     res.cookie("token", token, { httpOnly: true, secure: false }).json({
@@ -107,7 +107,7 @@ const authMiddleware = async (req, res, next) => {
       message: "Unauthorized user!",
     });
   try {
-    const decoded = jwt.verify(token, "izsduKGIkhKIGEkSVJkbgksefh");
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
     req.user = decoded;
     next();
   } catch (err) {
